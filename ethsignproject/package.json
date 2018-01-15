@@ -19,6 +19,7 @@
     "webpack-dev-server": "^1.14.1"
   },
   "dependencies": {
+    "axios": "^0.17.1",
     "es6-promise": "^3.1.2",
     "fetch": "^1.1.0",
     "isomorphic-fetch": "^2.2.1",

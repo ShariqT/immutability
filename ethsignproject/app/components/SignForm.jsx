@@ -2,6 +2,8 @@ import React from "react"
 import ModalResponse from "./ModalResponse";
 import {Form, Button, Dropdown, TextArea} from "semantic-ui-react"
 import PropTypes from 'prop-types';
+import Axios from "axios";
+
 
 export default class SignForm extends React.Component{
     state = {}
@@ -16,6 +18,7 @@ export default class SignForm extends React.Component{
 
         this.state.items = items;
         this.state.selectedAccount = null;
+        this.state.message = null;
         this.state.isLoading = true;
         this.state.modal = {}
         this.state.modal.show = false;
@@ -32,31 +35,55 @@ export default class SignForm extends React.Component{
        
     }
 
-    onSubmit = (e, val) => {
-        var options = {
-            method: "POST",
-            body: JSON.stringify({
-                "acct":this.state.selectedAccount
-            })
-        }
+    onSubmit = (e, val) => {       
         console.log("submitting form")
+        console.log(web3.version)
         const self = this;
-        fetch("/sign", options).catch((res) => {
-            console.log("dsfsdfds")
-            self.setState({
-                modal:{
-                    show:true
-                }
+        web3.eth.sendTransaction({
+            from: this.state.selectedAccount,
+            data: web3.toHex(this.state.message)
+        }, (err, tx)=>{
+            console.log(tx);
+            var params = new URLSearchParams();
+            params.append("acct", this.state.selectedAccount);
+            params.append("tx", tx);
+            var options = {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": document.cookie.split("=")[1],
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                data: params
+            }
+            Axios("/sign", options).catch((err) => {
+                self.setState({
+                    modal:{
+                        show:true,
+                        type:"Error",
+                        message:"Could not finish transaction. Server returned a " + err.response.status + " code."
+                    }
+                });
+            }).then((res) => {
+                var data = res.data;
+                self.setState({
+                    modal:{
+                        show:true,
+                        type:"Success",
+                        message: "You have signed a transaction and put it on the blockchain. Transaction number is : " + data.transaction
+                    },
+                    transaction: data.transaction
+                });
             });
-        }).then((res) => {
-            console.log(res);
-            self.setState({
-                modal:{
-                    show:true,
-                    type:"success"
-                }
-            });
-        });
+        })
+        
+    }
+
+    handleInput = (e, val) =>{
+        console.log("inside of the handle input");
+        console.log(val);
+        this.setState({
+            message: val.value
+        })
     }
 
 
@@ -64,7 +91,7 @@ export default class SignForm extends React.Component{
         return(
             <div>
             
-            <ModalResponse open={this.state.modal.show}></ModalResponse>
+            <ModalResponse open={this.state.modal.show} message={this.state.modal.message} type={this.state.modal.type}></ModalResponse>
             <Form onSubmit={this.onSubmit}>
                 <Form.Field>
                     <label>Account</label>
@@ -73,7 +100,7 @@ export default class SignForm extends React.Component{
                     
                 <Form.Field>
                 <label>Message</label>
-                    <TextArea></TextArea>
+                    <TextArea placeholder="Write your message..." onInput={this.handleInput}></TextArea>
                 </Form.Field>
                 <Button type="submit">Sign</Button>
             </Form>
