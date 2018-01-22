@@ -28,10 +28,14 @@ export default class ModalResponse extends React.Component{
         return alertColor;
     }
    handleClose = (evt)=>{
-    this.setState({
-        open:false
-    })
-   }
+       var self = this;
+            this.setState({
+                open:false
+            }, function(){;
+                
+                this.props.handleFormState(this.state.open);
+        });
+    }
 
     componentWillReceiveProps(nextProps) {
         this.setState({

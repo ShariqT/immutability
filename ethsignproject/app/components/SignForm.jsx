@@ -27,6 +27,7 @@ export default class SignForm extends React.Component{
     }
     handleChange = (e, val)=>{
         console.log(val);
+        console.log(this);
         this.setState({
             selectedAccount: val.value
         }, function(){
@@ -69,18 +70,30 @@ export default class SignForm extends React.Component{
                     modal:{
                         show:true,
                         type:"Success",
-                        message: "You have signed a transaction and put it on the blockchain. Transaction number is : " + data.transaction
+                        message: "You have signed a transaction and put it on the blockchain. Transaction number is : " + data.transaction + " Here is a shortcut url to share: " + window.location.protocol + "//" + window.location.hostname + "/r/" + data.shortcut
                     },
-                    transaction: data.transaction
+                    transaction: data.transaction,
+                    selectedAccount: null,
+                    message: null
                 });
             });
         })
         
     }
 
-    handleInput = (e, val) =>{
-        console.log("inside of the handle input");
+    handleClose(val){
+        console.log("from the form module")
         console.log(val);
+        console.log(this);
+        this.setState({
+            modal:{
+                show: val
+            }
+        })
+    }
+
+    handleInput = (e, val) =>{
+        
         this.setState({
             message: val.value
         })
@@ -91,7 +104,7 @@ export default class SignForm extends React.Component{
         return(
             <div>
             
-            <ModalResponse open={this.state.modal.show} message={this.state.modal.message} type={this.state.modal.type}></ModalResponse>
+            <ModalResponse open={this.state.modal.show} message={this.state.modal.message} type={this.state.modal.type} handleFormState={this.handleClose.bind(this)}></ModalResponse>
             <Form onSubmit={this.onSubmit}>
                 <Form.Field>
                     <label>Account</label>

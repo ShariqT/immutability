@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block "content" %}
+
+{% load static %}
+
+{% load render_bundle from webpack_loader %}
+<div id="App2"></div>
+
+{% render_bundle 'vendors' %}
+{% render_bundle 'App2' %}
+<div class="ui segment basic">
+    tx:{{record.tx}}
+    acct: {{ record.acct}}
+
+    msg {{message}}
+    </div>
+
+{% endblock %}

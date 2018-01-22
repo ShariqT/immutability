@@ -1,3 +1,5 @@
 from django.db import models
-
-# Create your models here.
+import uuid
+class URLShortcut(models.Model):
+    acct = models.TextField(max_length=500)
+    tx = models.TextField(max_length=500)
