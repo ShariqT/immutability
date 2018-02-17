@@ -1,3 +1,5 @@
 immutability
 .vscode
 ethsignproject/node_modules
+ethenv/
+*.pyc

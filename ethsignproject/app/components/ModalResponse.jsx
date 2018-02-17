@@ -47,12 +47,11 @@ export default class ModalResponse extends React.Component{
     }
     render(){
         
-        console.log(this.state);
         return(
             <Modal open={this.state.open}>
                 <Header color={this.state.alertColor}>{this.state.type}</Header>
                 <Modal.Content>
-                    <p>{this.state.message}</p>
+                    {this.state.message}
                 </Modal.Content>
                 <Modal.Actions>
                     <Button onClick={this.handleClose} inverse color="green">

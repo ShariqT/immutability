@@ -44,6 +44,17 @@ export default class SignForm extends React.Component{
             from: this.state.selectedAccount,
             data: web3.toHex(this.state.message)
         }, (err, tx)=>{
+            if (err){
+                console.log(err);
+                self.setState({
+                    modal:{
+                        show:true,
+                        type:"Error",
+                        message: err.message
+                    }
+                });
+                return;
+            }
             console.log(tx);
             var params = new URLSearchParams();
             params.append("acct", this.state.selectedAccount);
@@ -115,7 +126,7 @@ export default class SignForm extends React.Component{
                 <label>Message</label>
                     <TextArea placeholder="Write your message..." onInput={this.handleInput}></TextArea>
                 </Form.Field>
-                <Button type="submit">Sign</Button>
+                <Button type="submit" color="blue">Sign</Button>
             </Form>
             </div>
         );

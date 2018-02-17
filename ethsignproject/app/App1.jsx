@@ -6,6 +6,11 @@ import { Web3Provider } from "react-web3";
 import { NoWeb3 } from "./components/NoWeb3";
 
 class App1 extends React.Component{
+    constructor(props){
+        super(props);
+
+        console.log(props)
+    }
     render(){
         return (
                 <App1Container />

@@ -117,7 +117,7 @@ var pJS = function(tag_id, params){
           duration: 0.4
         },
         push:{
-          particles_nb: 4
+          particles_nb: 1
         },
         remove:{
           particles_nb: 2
@@ -1518,6 +1518,15 @@ window.particlesJS = function(tag_id, params){
   }
 
 };
+
+window.particlesJS.setOnClickHandler = function(cb){
+  if( pJSDom.length == 0){
+    throw new Error("Can only set click handlers after calling particlesJS.load() or particlesJS()");
+  }
+  for( var i = 0; i < pJSDom.length; i++){
+    pJSDom[i].pJS.interactivity.el.addEventListener('click', cb);
+  }
+}
 
 window.particlesJS.load = function(tag_id, path_config_json, callback){
 

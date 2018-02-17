@@ -13,6 +13,7 @@ web3 = Web3(HTTPProvider("https://ropsten.infura.io/4XevmelstdICBPBhZCBX"))
 
 
 def index(request):
+    
     return render(request, "frontend/index.html")
 
 
@@ -46,6 +47,7 @@ def sign(request):
 
 def resolve(request, shortcode):
     record_id = base64.urlsafe_b64decode(shortcode)
+    print(record_id)
     record = URLShortcut.objects.get(pk= bytes_to_int(record_id))
     blockchain_info = web3.eth.getTransaction(record.tx)
     print(blockchain_info)
