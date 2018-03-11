@@ -4,6 +4,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, Http404
 from ethsignproject.frontend.models import URLShortcut
 from django.conf import settings
+from django.core.exceptions import ObjectDoesNotExist
 # Create your views here.
 
 #web3 = Web3(HTTPProvider("http://localhost:8545"))
@@ -14,7 +15,7 @@ web3 = Web3(HTTPProvider("https://ropsten.infura.io/4XevmelstdICBPBhZCBX"))
 
 def index(request):
     
-    return render(request, "frontend/index.html")
+    return render(request, "frontend/index.html", {"BASE_URL": settings.BASE_URL})
 
 
 def bytes_to_int(bytes):
@@ -45,11 +46,39 @@ def sign(request):
     else:
         return Http404()
 
+
+def show(request, shortcode):
+    return render(request, "frontend/message.html")
+
 def resolve(request, shortcode):
-    record_id = base64.urlsafe_b64decode(shortcode)
+    res = HttpResponse()
+    record_id = bytes_to_int(base64.urlsafe_b64decode(shortcode))
     print(record_id)
-    record = URLShortcut.objects.get(pk= bytes_to_int(record_id))
-    blockchain_info = web3.eth.getTransaction(record.tx)
-    print(blockchain_info)
-    message = web3.toText(blockchain_info['input'])
-    return render(request, "frontend/message.html", {"record": record, "message": message})
+    try:
+        record = URLShortcut.objects.get(pk=record_id)
+        blockchain_info = web3.eth.getTransaction(record.tx)
+        print(blockchain_info)
+        message = web3.toText(blockchain_info['input'])
+        res.write(json.dumps({"record": {"tx":record.tx, "acct": record.acct }, "message": message}))
+        return res
+    except (ObjectDoesNotExist, OverflowError):
+        # we don't have the record, so let's see if its something we and query from the 
+        # Ethereum blockchain
+        blockchain_info = web3.eth.getTransaction(record_id)
+        blockchain_ret = {}
+        blockchain_ret["record"] = {
+            "from": blockchain_info["from"],
+            "to": blockchain_info["to"]
+        }
+
+        if blockchain_info["input"] == "0x":
+            # this is most likely a contract
+            blockchain_ret["record"]["value"] = blockchain_info["value"]
+        else:
+            blockchain_ret["record"]["input"] = "Contract Code"
+
+        res.write(json.dumps(blockchain_ret))
+        return res             
+    except Exception as e:
+        res.write(json.dumps({"error": e}))
+        return res

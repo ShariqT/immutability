@@ -8,6 +8,5 @@ class App2 extends React.Component{
     }
 }
 
-//render(<App2 />, document.getElementById("App"))
 
 

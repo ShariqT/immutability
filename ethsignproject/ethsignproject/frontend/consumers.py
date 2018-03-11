@@ -52,7 +52,7 @@ class EthConsumer(JsonWebsocketConsumer):
                 for i in range(0, len(block_info['transactions'])):
                     tx_info = web3.eth.getTransaction(block_info['transactions'][i])
                     if tx_info is not None:
-                        ret_dict['transactions'].append( {"to": tx_info['to'], "from": tx_info['from'], "value": tx_info['value'] })
+                        ret_dict['transactions'].append( {"to": tx_info['to'], "from": tx_info['from'], "data": tx_info["input"], "value": tx_info['value'] })
             else:
                 ret_dict["error"] = "no blocks"
         self.send_json(ret_dict)

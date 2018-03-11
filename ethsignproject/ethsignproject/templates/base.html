@@ -12,7 +12,7 @@
 </head>
 <body>
     {% block "content" %}{% endblock %}
-    {% static "channels/js/websocketbridge.js" %}
-
+    <script src="{% static "channels/js/websocketbridge.js" %}"></script>
+    {% csrf_token %}
 </body>
 </html>

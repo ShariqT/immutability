@@ -5,15 +5,10 @@
 {% load static %}
 
 {% load render_bundle from webpack_loader %}
-<div id="App"></div>
+<div id="App1"></div>
 
 {% render_bundle 'vendors' %}
-{% render_bundle 'App2' %}
-<div class="ui segment basic">
-    tx:{{record.tx}}
-    acct: {{ record.acct}}
+{% render_bundle 'App1' %}
 
-    msg {{message}}
-    </div>
 
 {% endblock %}

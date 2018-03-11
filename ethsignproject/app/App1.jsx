@@ -1,9 +1,10 @@
 import React from "react";
 import { render } from "react-dom";
-
+import {BrowserRouter as Router, Route } from "react-router-dom"
 import App1Container from "./containers/App1Container";
 import { Web3Provider } from "react-web3";
-import { NoWeb3 } from "./components/NoWeb3";
+import Intro from "./components/Intro";
+import App2Container from './containers/App2Container'
 
 class App1 extends React.Component{
     constructor(props){
@@ -18,6 +19,15 @@ class App1 extends React.Component{
     }
 }
 
-render(<Web3Provider>
-<App1 />
-</Web3Provider>, document.getElementById('App1'))
+console.log("homepage")
+render(
+    <Web3Provider web3UnavailableScreen={() => <Intro></Intro>}>
+
+    <Router>
+        <div>
+        <Route exact path="/" component={App1Container} />
+        <Route path="/r/:id" component={App2Container} />
+        </div>
+    </Router>
+    </Web3Provider>, document.getElementById('App1'))
+

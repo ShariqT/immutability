@@ -9,6 +9,7 @@ export default class ModalResponse extends React.Component{
             open: props.open,
             message: props.message,
             type: props.type,
+            title: props.title,
             alertColor: this.setAlertColor(props.type),
         };
     }
@@ -42,6 +43,7 @@ export default class ModalResponse extends React.Component{
             open: nextProps.open,
             message: nextProps.message,
             type: nextProps.type,
+            title: nextProps.title,
             alertColor: this.setAlertColor(nextProps.type)
         });
     }
@@ -49,7 +51,7 @@ export default class ModalResponse extends React.Component{
         
         return(
             <Modal open={this.state.open}>
-                <Header color={this.state.alertColor}>{this.state.type}</Header>
+                <Header color={this.state.alertColor}>{this.state.title === undefined ? this.state.type : this.state.title}</Header>
                 <Modal.Content>
                     {this.state.message}
                 </Modal.Content>

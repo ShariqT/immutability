@@ -7,7 +7,6 @@ module.exports = {
   entry: {
     // Add as many entry points as you have container-react-components here
     App1: './app/App1',
-    App2: './app/App2',
     vendors: ['react', 'semantic-ui-react'],
   },
 

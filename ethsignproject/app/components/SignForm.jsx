@@ -59,10 +59,12 @@ export default class SignForm extends React.Component{
             var params = new URLSearchParams();
             params.append("acct", this.state.selectedAccount);
             params.append("tx", tx);
+            var csrftoken = document.querySelectorAll('input[name=csrfmiddlewaretoken]')[0].value;
+
             var options = {
                 method: "POST",
                 headers: {
-                    "X-CSRFToken": document.cookie.split("=")[1],
+                    "X-CSRFToken": csrftoken,
                     "Content-Type": "application/x-www-form-urlencoded"
                 },
                 data: params
@@ -81,7 +83,13 @@ export default class SignForm extends React.Component{
                     modal:{
                         show:true,
                         type:"Success",
-                        message: "You have signed a transaction and put it on the blockchain. Transaction number is : " + data.transaction + " Here is a shortcut url to share: " + window.location.protocol + "//" + window.location.hostname + "/r/" + data.shortcut
+                        message: 
+                        <div>
+                            <p>You have signed a transaction and put it on the blockchain.</p>
+                            <p>Transaction number is{data.transaction}</p>
+                             <p>Here is a shortcut url to share: 
+                             <a href={"/r/" + data.shortcut}>{BASE_URL + "r/" + data.shortcut}</a></p>
+                        </div>
                     },
                     transaction: data.transaction,
                     selectedAccount: null,
