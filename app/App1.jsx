@@ -14,7 +14,9 @@ class App1 extends React.Component{
     }
     render(){
         return (
-                <App1Container />
+            <div>
+            <App1Container />
+            </div>
         )
     }
 }
