@@ -11,7 +11,7 @@ config.entry = {
   App1: [
     'webpack-dev-server/client?http://' + ip + ':3000',
     'webpack/hot/only-dev-server',
-    './app/App1',
+    './app/App2',
   ],
   // App2: [
   //   'webpack-dev-server/client?http://' + ip + ':3000',
@@ -29,7 +29,7 @@ config.plugins = config.plugins.concat([
 ])
 
 config.module.loaders.push(
-  { test: /\.jsx?$/, exclude: /node_modules/, loaders: ['react-hot', 'babel'] }
+  { test: /\.jsx?$/, exclude: /node_modules/, loaders: ['react-hot', 'babel', 'react'] }
 )
 
 module.exports = config

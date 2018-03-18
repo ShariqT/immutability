@@ -17,6 +17,6 @@ export default class App1Container extends React.Component{
                 <Intro dynamic="true"></Intro>
                 <AccountInfoSegment></AccountInfoSegment>                
             </Container>
-        )
+        );
     }
 }
