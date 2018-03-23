@@ -126,18 +126,16 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+
+STATIC_ROOT = os.path.join(PROJECT_ROOT, "staticfiles")
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "ethsignproject", "static"),
+    os.path.join(PROJECT_ROOT, "static"),
 ]
-WEBPACK_LOADER = {
-    'DEFAULT':{
-        'BUNDLE_DIR_NAME':"/",
-        'STATS_FILE':os.path.join(BASE_DIR, 'webpack-stats-local.json')
-    }
-}
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
 
 
 django_heroku.settings(locals())

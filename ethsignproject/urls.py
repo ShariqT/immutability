@@ -22,4 +22,4 @@ from ethsignproject.frontend.urls import urlpatterns as frontviews
 urlpatterns = [
     path(r'', include(frontviews)),
     path(r'admin/', admin.site.urls),
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+]
