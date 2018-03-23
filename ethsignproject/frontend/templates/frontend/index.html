@@ -3,11 +3,9 @@
 {% block "content" %}
 {% load static %}
 
-{% load render_bundle from webpack_loader %}
 <script>const BASE_URL="{{BASE_URL}}"</script>
 <div id="App1"></div>
 
-{% render_bundle 'vendors' %}
-{% render_bundle "App1" %}
+<script src="{% static 'main.js' %}"></script>
 
 {% endblock %}
