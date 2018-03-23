@@ -10,4 +10,4 @@ from whitenoise.django import DjangoWhiteNoise
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ethsignproject.settings")
 django.setup()
-application = DjangoWhiteNoise(get_default_application())
+application = get_default_application()
