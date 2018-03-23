@@ -145,6 +145,11 @@ function build(previousFileSizes) {
 function copyPublicFolder() {
   fs.copySync(paths.appPublic, paths.appBuild, {
     dereference: true,
-    filter: file => file !== paths.appHtml,
+    filter: (file) => {
+      console.log(file);
+      let fileparts = file.split("/");
+      console.log(fileparts[fileparts.length - 1])
+      return fileparts[fileparts.length -1] !== "index.html" 
+    },
   });
 }
