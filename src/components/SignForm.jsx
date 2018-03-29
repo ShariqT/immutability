@@ -39,6 +39,20 @@ export default class SignForm extends React.Component{
     onSubmit = (e, val) => {       
         console.log("submitting form")
         console.log(window.web3.version)
+        if (window.web3.version.network !== "3"){
+            this.setState({
+                modal:{
+                    show:true,
+                    type:"Error",
+                    message: 
+                    <div>
+                        <p>You are not on the Ropsten Testnet. Please change your MetaMask client to use the Ropsten Testnet!</p>
+                    </div>
+                }
+            });
+
+            return;
+        }
         const self = this;
         window.web3.eth.sendTransaction({
             from: this.state.selectedAccount,

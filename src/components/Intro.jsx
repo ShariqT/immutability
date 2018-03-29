@@ -30,6 +30,12 @@ export default class Intro extends React.Component{
                     <p>You can create an account on the blockchain by <a href="https://metamask.io/" target="_blank">downloading the MetaMask browser plugin.</a> Simply follow
                         the directions on their download page and refresh this page. You should see your account information
                         below if you have done this correct</p>
+                    <Header as="h3">How to get ether</Header>
+                    <p>To get ether, you would have to convert fiat money (dollars, yen, etc) into ether. You can 
+                        do this on platforms like Coinbase. But for our little test purposes, we will be using the 
+                        <a href="https://faucet.metamask.io/" target="_blank">Test Facuet</a>. This will provide you 
+                        with the ether that you will need to make transactions. Please note that these
+                        transactions are on the <strong>test network</strong> only. </p> 
                     </Segment>
                     </Grid.Column>
                     <Grid.Column>
